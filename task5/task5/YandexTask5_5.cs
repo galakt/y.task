@@ -7,20 +7,21 @@ namespace task5
 {
     public class YandexTask5_5
     {
-        private Dictionary<string, char> CustomLanguageDict { get; } = new Dictionary<string, char>();
-        private char _nextCustomLanguageWord = (char)1;
+        private readonly Dictionary<string, int> _customLanguageDict = new Dictionary<string, int>();
+        private readonly Dictionary<int, string> _customLanguageDictReversed = new Dictionary<int, string>();
+        private int _nextCustomLanguageWord = 1;
 
-        private readonly char[] last5CharsStorage = new char[5];
-        private byte storageSize = 0;
+        private readonly int[] _last5CharsStorage = new int[5];
+        private byte _storageSize = 0;
 
-        public MinSmallDictionary Result3Gram = new MinSmallDictionary(5);
-        public Dictionary<string, int> Gram3CountDict = new Dictionary<string, int>();
+        public readonly MinSmallDictionary Result3Gram = new MinSmallDictionary(5);
+        public readonly Dictionary<string, int> Gram3CountDict = new Dictionary<string, int>();
 
-        public MinSmallDictionary Result4Gram = new MinSmallDictionary(5);
-        public Dictionary<string, int> Gram4CountDict = new Dictionary<string, int>();
+        public readonly MinSmallDictionary Result4Gram = new MinSmallDictionary(5);
+        public readonly Dictionary<string, int> Gram4CountDict = new Dictionary<string, int>();
         
-        public MinSmallDictionary Result5Gram = new MinSmallDictionary(5);
-        public Dictionary<string, int> Gram5CountDict = new Dictionary<string, int>();
+        public readonly MinSmallDictionary Result5Gram = new MinSmallDictionary(5);
+        public readonly Dictionary<string, int> Gram5CountDict = new Dictionary<string, int>();
 
         public void ProcessRow(string[] parts)
         {
@@ -30,84 +31,87 @@ namespace task5
             var destIp = parts[5];
             var destPort = parts[6];
 
-            var customLanguageWordType = srcUser +","+ srcPort + "," + destIp + "," + destPort;
-            char customLanguageWord;
-            if (!CustomLanguageDict.TryGetValue(customLanguageWordType, out customLanguageWord))
+            var customLanguageWordType = srcUser +"+"+ srcPort + "+" + destIp + "+" + destPort;
+            int customLanguageWord;
+            if (!_customLanguageDict.TryGetValue(customLanguageWordType, out customLanguageWord))
             {
                 customLanguageWord = _nextCustomLanguageWord;
                 _nextCustomLanguageWord = ++_nextCustomLanguageWord;
-                CustomLanguageDict.Add(customLanguageWordType, customLanguageWord);
+
+                _customLanguageDict.Add(customLanguageWordType, customLanguageWord);
+                _customLanguageDictReversed.Add(customLanguageWord, customLanguageWordType);
             }
 
-            // Full chars storage
-            if (storageSize == 5)
+            // Process words storage
+            if (_storageSize == 5)
             {
-                // shift chars
+                // shift words
                 for (int i = 0; i < 4; i++)
                 {
-                    last5CharsStorage[i] = last5CharsStorage[i + 1];
+                    _last5CharsStorage[i] = _last5CharsStorage[i + 1];
                 }
-                last5CharsStorage[4] = customLanguageWord;
+                _last5CharsStorage[4] = customLanguageWord;
 
-                var gram3 = new string(last5CharsStorage, 2, 3);
+                var gram3 = _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
                 UpdateGramResult(gram3, Gram3CountDict, Result3Gram);
 
-                var gram4 = new string(last5CharsStorage, 1, 4);
+                var gram4 = _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4];
                 UpdateGramResult(gram4, Gram4CountDict, Result4Gram);
 
-                var gram5 = new string(last5CharsStorage, 0, 5);
+                var gram5 = _last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3] + "," + _last5CharsStorage[4];
                 UpdateGramResult(gram5, Gram5CountDict, Result5Gram);
 
                 return;
             }
 
-            // First 5
-            if (storageSize == 4)
+            // First 5 special case
+            if (_storageSize == 4)
             {
-                last5CharsStorage[storageSize] = customLanguageWord;
-                storageSize += 1;
+                _last5CharsStorage[_storageSize] = customLanguageWord;
+                _storageSize += 1;
 
-                var gram3 = new string(last5CharsStorage, 2, 3);
+                var gram3 = _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
                 UpdateGramResult(gram3, Gram3CountDict, Result3Gram);
 
-                var gram4 = new string(last5CharsStorage, 1, 4);
+                var gram4 = _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
                 UpdateGramResult(gram4, Gram4CountDict, Result4Gram);
 
-                var gram5 = new string(last5CharsStorage, 0, 5);
+                var gram5 = _last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
                 UpdateGramResult(gram5, Gram5CountDict, Result5Gram);
 
                 return;
             }
 
-            // First 4
-            if (storageSize == 3)
+            // First 4 special case
+            if (_storageSize == 3)
             {
-                last5CharsStorage[storageSize] = customLanguageWord;
-                storageSize += 1;
+                _last5CharsStorage[_storageSize] = customLanguageWord;
+                _storageSize += 1;
 
-                var gram3 = new string(last5CharsStorage, 1, 3);
+                var gram3 = _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString();
                 UpdateGramResult(gram3, Gram3CountDict, Result3Gram);
 
-                var gram4 = new string(last5CharsStorage, 0, 4);
+                var gram4 = _last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString();
                 UpdateGramResult(gram4, Gram4CountDict, Result4Gram);
 
                 return;
             }
 
-            // First 3
-            if (storageSize == 2)
+            // First 3 special case
+            if (_storageSize == 2)
             {
-                last5CharsStorage[storageSize] = customLanguageWord;
-                storageSize += 1;
+                _last5CharsStorage[_storageSize] = customLanguageWord;
+                _storageSize += 1;
 
-                var gram3 = new string(last5CharsStorage, 0, 3);
+                var gram3 = _last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString();
                 UpdateGramResult(gram3, Gram3CountDict, Result3Gram);
 
                 return;
             }
 
-            last5CharsStorage[storageSize] = customLanguageWord;
-            storageSize += 1;
+            // Less 3 special case
+            _last5CharsStorage[_storageSize] = customLanguageWord;
+            _storageSize += 1;
         }
 
         private void UpdateGramResult(string gram, Dictionary<string, int> countDict, MinSmallDictionary resultDict)
@@ -126,17 +130,35 @@ namespace task5
             resultDict.Add(gram, count);
         }
 
-        public IEnumerable<string> GetResult()
+        public string GetResult()
         {
             var sb = new StringBuilder();
-            sb.AppendLine("3 gram:");
 
+            sb.AppendLine("3 gram:");
             foreach (var item in Result3Gram.Dict.OrderByDescending(p=> p.Value))
             {
-
+                sb.AppendLine(item.Value + " - " + UnpackWord(item.Key));
             }
 
-            return new List<string>(); //_task1Result.Dict.OrderByDescending(p => p.Value).Select(p => $"{p.Key} - {p.Value}");
+            sb.AppendLine("4 gram:");
+            foreach (var item in Result4Gram.Dict.OrderByDescending(p => p.Value))
+            {
+                sb.AppendLine(item.Value + " - " + UnpackWord(item.Key));
+            }
+
+            sb.AppendLine("5 gram:");
+            foreach (var item in Result5Gram.Dict.OrderByDescending(p => p.Value))
+            {
+                sb.AppendLine(item.Value + " - " + UnpackWord(item.Key));
+            }
+
+            return sb.ToString();
+        }
+
+        private string UnpackWord(string word)
+        {
+            var numbers = word.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            return string.Join(" , ", numbers.Select(p => _customLanguageDictReversed[int.Parse(p)]));
         }
     }
 }

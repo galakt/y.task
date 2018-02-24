@@ -22,7 +22,7 @@ namespace task5
                 task5.ProcessRow(parts);
             }
             
-            Console.WriteLine($"# Поиск 5ти пользователей, сгенерировавших наибольшее количество запросов{Environment.NewLine}" +
+            var r = ($"# Поиск 5ти пользователей, сгенерировавших наибольшее количество запросов{Environment.NewLine}" +
                               $"{string.Join(Environment.NewLine, task1.GetResult())}{Environment.NewLine}" +
                               $"# Поиск 5ти пользователей, отправивших наибольшее количество данных{Environment.NewLine}" +
                               $"{string.Join(Environment.NewLine, task2.GetResult())}{Environment.NewLine}" +
@@ -30,6 +30,8 @@ namespace task5
                               $"# найти 5 наиболее устойчивых N-грамм журнала событий{Environment.NewLine}" +
                               $"# (текста на неизвестном языке){Environment.NewLine}" +
                               $"{string.Join(Environment.NewLine, task5.GetResult())}");
+            Console.WriteLine(r);
+            File.WriteAllText("result.txt", r, Encoding.UTF8);
             Console.ReadLine();
         }
     }
