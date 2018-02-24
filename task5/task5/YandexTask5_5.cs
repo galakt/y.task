@@ -7,6 +7,10 @@ namespace task5
 {
     public class YandexTask5_5
     {
+        private StringBuilder sb = new StringBuilder();
+        private const char WordTypeDelim = '+';
+        private const char WordsDelim = ',';
+
         private readonly Dictionary<string, int> _customLanguageDict = new Dictionary<string, int>();
         private readonly Dictionary<int, string> _customLanguageDictReversed = new Dictionary<int, string>();
         private int _nextCustomLanguageWord = 1;
@@ -31,7 +35,15 @@ namespace task5
             var destIp = parts[5];
             var destPort = parts[6];
 
-            var customLanguageWordType = srcUser +"+"+ srcPort + "+" + destIp + "+" + destPort;
+            sb.Clear();
+            sb.Append(srcUser);
+            sb.Append(WordTypeDelim);
+            sb.Append(srcPort);
+            sb.Append(WordTypeDelim);
+            sb.Append(destIp);
+            sb.Append(WordTypeDelim);
+            sb.Append(destPort);
+            var customLanguageWordType = sb.ToString(); //srcUser +"+"+ srcPort + "+" + destIp + "+" + destPort;
             int customLanguageWord;
             if (!_customLanguageDict.TryGetValue(customLanguageWordType, out customLanguageWord))
             {
@@ -52,13 +64,37 @@ namespace task5
                 }
                 _last5CharsStorage[4] = customLanguageWord;
 
-                var gram3 = _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
+                sb.Clear();
+                sb.Append(_last5CharsStorage[2]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[3]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[4]);
+                var gram3 = sb.ToString(); //_last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
                 UpdateGramResult(gram3, Gram3CountDict, Result3Gram);
 
-                var gram4 = _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4];
+                sb.Clear();
+                sb.Append(_last5CharsStorage[1]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[2]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[3]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[4]);
+                var gram4 = sb.ToString(); //_last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4];
                 UpdateGramResult(gram4, Gram4CountDict, Result4Gram);
 
-                var gram5 = _last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3] + "," + _last5CharsStorage[4];
+                sb.Clear();
+                sb.Append(_last5CharsStorage[0]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[1]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[2]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[3]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[4]);
+                var gram5 = sb.ToString(); //_last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3] + "," + _last5CharsStorage[4];
                 UpdateGramResult(gram5, Gram5CountDict, Result5Gram);
 
                 return;
@@ -70,13 +106,37 @@ namespace task5
                 _last5CharsStorage[_storageSize] = customLanguageWord;
                 _storageSize += 1;
 
-                var gram3 = _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
+                sb.Clear();
+                sb.Append(_last5CharsStorage[2]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[3]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[4]);
+                var gram3 = sb.ToString(); //_last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
                 UpdateGramResult(gram3, Gram3CountDict, Result3Gram);
 
-                var gram4 = _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
+                sb.Clear();
+                sb.Append(_last5CharsStorage[1]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[2]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[3]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[4]);
+                var gram4 = sb.ToString(); //_last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
                 UpdateGramResult(gram4, Gram4CountDict, Result4Gram);
 
-                var gram5 = _last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
+                sb.Clear();
+                sb.Append(_last5CharsStorage[0]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[1]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[2]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[3]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[4]);
+                var gram5 = sb.ToString(); //_last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString() + "," + _last5CharsStorage[4].ToString();
                 UpdateGramResult(gram5, Gram5CountDict, Result5Gram);
 
                 return;
@@ -88,10 +148,24 @@ namespace task5
                 _last5CharsStorage[_storageSize] = customLanguageWord;
                 _storageSize += 1;
 
-                var gram3 = _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString();
+                sb.Clear();
+                sb.Append(_last5CharsStorage[1]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[2]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[3]);
+                var gram3 = sb.ToString(); //_last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString();
                 UpdateGramResult(gram3, Gram3CountDict, Result3Gram);
 
-                var gram4 = _last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString();
+                sb.Clear();
+                sb.Append(_last5CharsStorage[0]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[1]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[2]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[3]);
+                var gram4 = sb.ToString(); //_last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString() + "," + _last5CharsStorage[3].ToString();
                 UpdateGramResult(gram4, Gram4CountDict, Result4Gram);
 
                 return;
@@ -103,7 +177,13 @@ namespace task5
                 _last5CharsStorage[_storageSize] = customLanguageWord;
                 _storageSize += 1;
 
-                var gram3 = _last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString();
+                sb.Clear();
+                sb.Append(_last5CharsStorage[0]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[1]);
+                sb.Append(WordsDelim);
+                sb.Append(_last5CharsStorage[2]);
+                var gram3 = sb.ToString(); //_last5CharsStorage[0].ToString() + "," + _last5CharsStorage[1].ToString() + "," + _last5CharsStorage[2].ToString();
                 UpdateGramResult(gram3, Gram3CountDict, Result3Gram);
 
                 return;
@@ -132,8 +212,7 @@ namespace task5
 
         public string GetResult()
         {
-            var sb = new StringBuilder();
-
+            sb.Clear();
             sb.AppendLine("3 gram:");
             foreach (var item in Result3Gram.Dict.OrderByDescending(p=> p.Value))
             {
