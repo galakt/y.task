@@ -30,9 +30,9 @@ namespace task5
                               $"# найти 5 наиболее устойчивых N-грамм журнала событий{Environment.NewLine}" +
                               $"# (текста на неизвестном языке){Environment.NewLine}" +
                               $"{string.Join(Environment.NewLine, task5.GetResult())}");
-            Console.WriteLine(r);
+            //Console.WriteLine(r);
             File.WriteAllText("result.txt", r, Encoding.UTF8);
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }
